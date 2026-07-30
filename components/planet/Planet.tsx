@@ -3,7 +3,8 @@ import { getOrbitPosition } from '@/config/orbit';
 import { Html } from '@react-three/drei';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
-import { AdditiveBlending, Color, Group, MathUtils } from 'three';
+import { Group, MathUtils } from 'three';
+import GlbModel from './GlbModel';
 
 interface PlanetProps {
   destination: (typeof destinations)[number];
@@ -38,18 +39,8 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
       rotationTarget.current.y += delta * (0.08 + index * 0.012);
     }
 
-    visual.current.rotation.x = MathUtils.damp(
-      visual.current.rotation.x,
-      rotationTarget.current.x,
-      12,
-      delta,
-    );
-    visual.current.rotation.y = MathUtils.damp(
-      visual.current.rotation.y,
-      rotationTarget.current.y,
-      12,
-      delta,
-    );
+    visual.current.rotation.x = MathUtils.damp(visual.current.rotation.x, rotationTarget.current.x, 12, delta);
+    visual.current.rotation.y = MathUtils.damp(visual.current.rotation.y, rotationTarget.current.y, 12, delta);
 
     const scale = active ? 2.1 : hovered ? 1.15 : 1;
     visual.current.scale.x = MathUtils.damp(visual.current.scale.x, scale, 5, delta);
@@ -77,11 +68,7 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
     }
 
     rotationTarget.current.y += deltaX * 0.012;
-    rotationTarget.current.x = MathUtils.clamp(
-      rotationTarget.current.x + deltaY * 0.012,
-      -Math.PI / 2,
-      Math.PI / 2,
-    );
+    rotationTarget.current.x = MathUtils.clamp(rotationTarget.current.x + deltaY * 0.012, -Math.PI / 2, Math.PI / 2);
     lastPointer.current = { x: event.clientX, y: event.clientY };
   };
 
@@ -106,60 +93,38 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
 
   return (
     <group ref={orbitingPlanet} scale={destination.size}>
-        <group ref={visual}>
-          <mesh
-            scale={1.52}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerCancel}
-            onPointerEnter={(event) => {
-              event.stopPropagation();
-              setHovered(true);
-              if (!dragging.current) document.body.style.cursor = 'grab';
-            }}
-            onPointerLeave={() => {
-              setHovered(false);
-              if (!dragging.current) document.body.style.cursor = '';
-            }}
-          >
-            <sphereGeometry args={[1, 24, 24]} />
-            <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
-          </mesh>
-          <mesh>
-            <icosahedronGeometry args={[1, 4]} />
-            <meshStandardMaterial
-              color={destination.color}
-              emissive={new Color(destination.color).multiplyScalar(0.22)}
-              emissiveIntensity={active ? 1.2 : 0.75}
-              metalness={0.32}
-              roughness={0.52}
-            />
-          </mesh>
-          <mesh rotation={[Math.PI / 2.35, 0.15 + index * 0.1, 0]} scale={1.45}>
-            <torusGeometry args={[1, active ? 0.028 : 0.015, 8, 96]} />
-            <meshBasicMaterial
-              color={destination.color}
-              transparent
-              opacity={active ? 0.75 : 0.32}
-              blending={AdditiveBlending}
-            />
-          </mesh>
-        </group>
-        <Html center position={[0, -1.45, 0]} distanceFactor={8} zIndexRange={[20, 0]}>
-          <button
-            type='button'
-            onClick={() => onSelect(index)}
-            className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] backdrop-blur-md transition-colors ${
-              active
-                ? 'border-accent/70 bg-surface-scene/90 text-foreground'
-                : 'border-white/15 hover:border-white/35 bg-surface-scene/60 text-muted hover:text-foreground'
-            }`}
-          >
-            {destination.label}
-          </button>
-        </Html>
+      <group
+        ref={visual}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+        onPointerEnter={(event) => {
+          event.stopPropagation();
+          setHovered(true);
+          if (!dragging.current) document.body.style.cursor = 'grab';
+        }}
+        onPointerLeave={() => {
+          setHovered(false);
+          if (!dragging.current) document.body.style.cursor = '';
+        }}
+      >
+        <GlbModel modelPath={destination.modelPath} active={active} />
       </group>
+      <Html center position={[0, -1.45, 0]} distanceFactor={8} zIndexRange={[20, 0]}>
+        <button
+          type='button'
+          onClick={() => onSelect(index)}
+          className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] backdrop-blur-md transition-colors ${
+            active
+              ? 'border-accent/70 bg-surface-scene/90 text-foreground'
+              : 'border-white/15 hover:border-white/35 bg-surface-scene/60 text-muted hover:text-foreground'
+          }`}
+        >
+          {destination.label}
+        </button>
+      </Html>
+    </group>
   );
 };
 

@@ -1,12 +1,70 @@
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
-import { AdditiveBlending, BackSide, Group, Mesh } from 'three';
+import { useGLTF } from '@react-three/drei';
+import { useEffect, useMemo, useRef } from 'react';
+import {
+  AdditiveBlending,
+  BackSide,
+  Box3,
+  Group,
+  Mesh,
+  MeshStandardMaterial,
+  Sphere,
+} from 'three';
 
 const Sun = () => {
   const sun = useRef<Group>(null);
-  const core = useRef<Mesh>(null);
+  const core = useRef<Group>(null);
   const glow = useRef<Mesh>(null);
   const glowOuter = useRef<Mesh>(null);
+
+  const { scene } = useGLTF('/sun.glb');
+
+  const model = useMemo(() => {
+    const clone = scene.clone(true);
+
+    clone.traverse((child) => {
+      if (!(child instanceof Mesh)) return;
+
+      child.material = Array.isArray(child.material)
+        ? child.material.map((m) => m.clone())
+        : child.material.clone();
+    });
+
+    // ⭐ 중심 보정
+    const box = new Box3().setFromObject(clone);
+    const sphere = new Sphere();
+
+    box.getBoundingSphere(sphere);
+
+    clone.position.sub(sphere.center);
+
+    // ⭐ 모든 모델을 같은 기준 크기로 정규화
+    const radius = sphere.radius;
+    const targetRadius = 0.7; // 기존 태양 크기
+
+    const scale = targetRadius / radius;
+    clone.scale.setScalar(scale);
+
+    return clone;
+  }, [scene]);
+
+  useEffect(() => {
+    model.traverse((child) => {
+      if (!(child instanceof Mesh)) return;
+
+      const materials = Array.isArray(child.material)
+        ? child.material
+        : [child.material];
+
+      materials.forEach((material) => {
+        if (!(material instanceof MeshStandardMaterial)) return;
+
+        material.emissive.set('#ff7a18');
+        material.emissiveIntensity = 3;
+        material.needsUpdate = true;
+      });
+    });
+  }, [model]);
 
   useFrame((state, delta) => {
     if (sun.current) {
@@ -20,31 +78,34 @@ const Sun = () => {
 
     if (glow.current) {
       const pulse = 1 + Math.sin(state.clock.elapsedTime * 1.4) * 0.035;
-      glow.current.scale.setScalar(pulse);
+      glow.current.scale.setScalar(1.2 * pulse);
     }
 
     if (glowOuter.current) {
       const pulse = 1 + Math.sin(state.clock.elapsedTime * 0.9 + 1.5) * 0.05;
       glowOuter.current.scale.setScalar(2.8 * pulse);
     }
-
   });
 
   return (
     <group ref={sun}>
-      <pointLight color='#ffb84d' intensity={30} distance={15} decay={1.5} />
+      <pointLight
+        color="#ffb84d"
+        intensity={30}
+        distance={15}
+        decay={1.5}
+      />
 
-      {/* Core */}
-      <mesh ref={core}>
-        <icosahedronGeometry args={[0.4, 5]} />
-        <meshStandardMaterial color='#fde5ad' emissive='#ff7a18' emissiveIntensity={3} roughness={0.7} />
-      </mesh>
+      {/* GLB Sun */}
+      <group ref={core}>
+        <primitive object={model} />
+      </group>
 
       {/* Inner Glow */}
-      <mesh ref={glow} scale={1.2}>
-        <sphereGeometry args={[0.52, 64, 64]} />
+      <mesh ref={glow} scale={1.1}>
+        <sphereGeometry args={[0.33, 64, 64]} />
         <meshBasicMaterial
-          color='#ffb347'
+          color="#ffb347"
           transparent
           opacity={0.22}
           side={BackSide}
@@ -54,10 +115,10 @@ const Sun = () => {
       </mesh>
 
       {/* Middle Glow */}
-      <mesh scale={1.55}>
-        <sphereGeometry args={[0.52, 64, 64]} />
+      <mesh scale={1.5}>
+        <sphereGeometry args={[0.33, 64, 64]} />
         <meshBasicMaterial
-          color='#ff9f43'
+          color="#ff9f43"
           transparent
           opacity={0.1}
           side={BackSide}
@@ -67,10 +128,10 @@ const Sun = () => {
       </mesh>
 
       {/* Outer Glow */}
-      <mesh scale={2.0}>
-        <sphereGeometry args={[0.52, 64, 64]} />
+      <mesh scale={1.7}>
+        <sphereGeometry args={[0.33, 64, 64]} />
         <meshBasicMaterial
-          color='#ff7a18'
+          color="#ff7a18"
           transparent
           opacity={0.045}
           side={BackSide}
@@ -80,10 +141,10 @@ const Sun = () => {
       </mesh>
 
       {/* Very Soft Halo */}
-      <mesh scale={2.8}>
+      <mesh ref={glowOuter}>
         <sphereGeometry args={[0.52, 64, 64]} />
         <meshBasicMaterial
-          color='#ffd280'
+          color="#ffd280"
           transparent
           opacity={0.015}
           side={BackSide}
@@ -94,5 +155,7 @@ const Sun = () => {
     </group>
   );
 };
+
+useGLTF.preload('/sun.glb');
 
 export default Sun;

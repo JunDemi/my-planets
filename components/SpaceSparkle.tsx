@@ -1,5 +1,4 @@
 import { Sparkles } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
 
 interface SpaceSparklesProps {
   color: string;
@@ -8,12 +7,10 @@ interface SpaceSparklesProps {
 }
 
 const SpaceSparkles = ({ color, speed, opacity }: SpaceSparklesProps) => {
-  const { viewport } = useThree();
-
   return (
     <Sparkles
       count={50}
-      scale={[viewport.width, viewport.height, 10]}
+      scale={[30, 18, 24]}
       size={5}
       speed={speed}
       opacity={opacity}

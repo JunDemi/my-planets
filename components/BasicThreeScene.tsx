@@ -2,8 +2,12 @@
 
 import { Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { Suspense, useEffect } from 'react';
+import { destinations } from '@/config/portfolio-data';
 import Universe from './planet/Universe';
+import { preloadGlbModels } from './planet/GlbModel';
 import SpaceSparkles from './SpaceSparkle';
+import LoaderContainer from './LoaderContainer';
 
 export interface BasicThreeSceneProps {
   activeIndex: number | null;
@@ -16,6 +20,11 @@ const BasicThreeScene = ({ activeIndex, onSelect }: BasicThreeSceneProps) => {
     { color: '#fff719', speed: 0.08, opacity: 1 },
     { color: '#8fb6ff', speed: 0.21, opacity: 1 },
   ];
+
+  useEffect(() => {
+    const modelPaths = [...new Set(destinations.map((destination) => destination.modelPath))];
+    preloadGlbModels(modelPaths);
+  }, []);
 
   return (
     <div className='fixed inset-0 z-0 bg-surface-scene'>
@@ -35,7 +44,9 @@ const BasicThreeScene = ({ activeIndex, onSelect }: BasicThreeSceneProps) => {
         {sparkles.map((sparkle, i) => (
           <SpaceSparkles key={i} color={sparkle.color} speed={sparkle.speed} opacity={sparkle.opacity} />
         ))}
-        <Universe activeIndex={activeIndex} onSelect={onSelect} />
+        <Suspense fallback={<LoaderContainer />}>
+          <Universe activeIndex={activeIndex} onSelect={onSelect} />
+        </Suspense>
       </Canvas>
       <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,8,22,0.08)_45%,rgba(5,8,22,0.78)_100%)]' />
     </div>

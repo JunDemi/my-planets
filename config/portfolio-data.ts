@@ -109,6 +109,7 @@ export const destinations = [
   {
     id: 'about',
     label: 'About',
+    modelPath: '/mercury.glb',
     color: '#7dd3fc',
     orbitRadius: 2,
     initialAngle: 2.65,
@@ -118,6 +119,7 @@ export const destinations = [
   {
     id: 'career',
     label: 'Career',
+    modelPath: '/venus.glb',
     color: '#a78bfa',
     orbitRadius: 2.8,
     initialAngle: 1.9,
@@ -127,6 +129,7 @@ export const destinations = [
   {
     id: 'skills',
     label: 'Skills',
+    modelPath: '/earth.glb',
     color: '#38bdf8',
     orbitRadius: 3.6,
     initialAngle: 0.82,
@@ -136,6 +139,7 @@ export const destinations = [
   {
     id: 'projects',
     label: 'Projects',
+    modelPath: '/mars.glb',
     color: '#fbbf24',
     orbitRadius: 4.4,
     initialAngle: 0,
@@ -145,6 +149,7 @@ export const destinations = [
   {
     id: 'architecture',
     label: 'Architecture',
+    modelPath: '/jupiter.glb',
     color: '#34d399',
     orbitRadius: 5.2,
     initialAngle: -0.74,
@@ -154,6 +159,7 @@ export const destinations = [
   {
     id: 'gallery',
     label: 'Gallery',
+    modelPath: '/saturn.glb',
     color: '#fb7185',
     orbitRadius: 6,
     initialAngle: -1.85,
@@ -163,6 +169,7 @@ export const destinations = [
   {
     id: 'contact',
     label: 'Contact',
+    modelPath: '/uranus.glb',
     color: '#e879f9',
     orbitRadius: 6.8,
     initialAngle: -2.72,

@@ -24,7 +24,7 @@ const OrbitLines = ({ onAdvance }: OrbitLinesProps) => {
     if (!dragging.current) return;
     event.stopPropagation();
     setOrbitOpacity(0.6);
-    onAdvance((event.clientX - lastPointerX.current) / 8);
+    onAdvance((event.clientX - lastPointerX.current) / 6);
     lastPointerX.current = event.clientX;
   };
 
