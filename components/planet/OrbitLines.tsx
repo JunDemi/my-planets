@@ -1,22 +1,16 @@
 import { destinations } from '@/config/portfolio-data';
 import { ORBIT_TILT } from '@/config/orbit';
 import { ThreeEvent } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 interface OrbitLinesProps {
   onAdvance: (deltaX: number) => void;
 }
 
 const OrbitLines = ({ onAdvance }: OrbitLinesProps) => {
+  const [orbitOpacity, setOrbitOpacity] = useState<number>(0.5);
   const dragging = useRef(false);
   const lastPointerX = useRef(0);
-
-  useEffect(
-    () => () => {
-      document.body.style.cursor = '';
-    },
-    [],
-  );
 
   const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
@@ -29,7 +23,8 @@ const OrbitLines = ({ onAdvance }: OrbitLinesProps) => {
   const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return;
     event.stopPropagation();
-    onAdvance(event.clientX - lastPointerX.current);
+    setOrbitOpacity(0.6);
+    onAdvance((event.clientX - lastPointerX.current) / 8);
     lastPointerX.current = event.clientX;
   };
 
@@ -37,6 +32,7 @@ const OrbitLines = ({ onAdvance }: OrbitLinesProps) => {
     if (!dragging.current) return;
     dragging.current = false;
     (event.target as Element).releasePointerCapture(event.pointerId);
+    setOrbitOpacity(0.5);
     document.body.style.cursor = 'grab';
   };
 
@@ -46,7 +42,7 @@ const OrbitLines = ({ onAdvance }: OrbitLinesProps) => {
         <group key={destination.id}>
           <mesh>
             <torusGeometry args={[destination.orbitRadius, 0.006, 4, 160]} />
-            <meshBasicMaterial color='#FFF' transparent opacity={0.6} />
+            <meshBasicMaterial color='#FFF' transparent opacity={orbitOpacity} />
           </mesh>
           <mesh
             onPointerDown={handlePointerDown}
