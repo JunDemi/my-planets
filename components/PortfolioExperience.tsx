@@ -60,23 +60,8 @@ const PortfolioExperience = () => {
     <main className='relative h-screen overflow-hidden bg-surface-scene text-foreground'>
       <BasicThreeScene activeIndex={activeIndex} onSelect={selectDestination} />
 
-      <header className='pointer-events-none fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-between px-7 sm:px-5'>
-        <button
-          type='button'
-          onClick={showMap}
-          className='pointer-events-auto text-14m uppercase tracking-widest text-foreground'
-        >
-          JP<span className='text-accent'>.</span>
-        </button>
-        <button
-          type='button'
-          onClick={showMap}
-          className={`bg-surface-scene/65 pointer-events-auto rounded-full border border-border-subtle px-4 py-2 text-[11px] uppercase tracking-[0.16em] backdrop-blur-md transition-colors hover:border-accent/50 ${
-            activeIndex === null ? 'text-accent' : 'text-muted'
-          }`}
-        >
-          Universe map
-        </button>
+      <header className='pointer-events-none fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-end px-7 sm:px-5'>
+        <p className='pointer-events-none text-[14px] tracking-[0.16em] text-white'>← → 이동 · ESC 홈</p>
       </header>
 
       <AnimatePresence mode='wait'>
@@ -127,9 +112,6 @@ const PortfolioExperience = () => {
       </AnimatePresence>
 
       <PlanetNavigation activeIndex={activeIndex} onSelect={selectDestination} />
-      <p className='pointer-events-none fixed bottom-7 right-7 z-40 text-[10px] uppercase tracking-[0.16em] text-white/30 md:hidden'>
-        ← → Navigate · ESC Map
-      </p>
     </main>
   );
 };

@@ -17,6 +17,7 @@ const BasicThreeScene = ({ activeIndex, onSelect }: BasicThreeSceneProps) => {
         dpr={[1, 1.75]}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         performance={{ min: 0.5 }}
+        style={{ touchAction: 'none' }}
       >
         <color attach='background' args={['#050816']} />
         <fog attach='fog' args={['#050816', 18, 58]} />

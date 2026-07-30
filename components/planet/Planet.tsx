@@ -1,69 +1,151 @@
 import { destinations } from '@/config/portfolio-data';
-import { Float, Html } from '@react-three/drei';
+import { getOrbitPosition } from '@/config/orbit';
+import { Html } from '@react-three/drei';
 import { ThreeEvent, useFrame } from '@react-three/fiber';
-import { useRef, useState } from 'react';
-import { AdditiveBlending, Color, MathUtils, Mesh } from 'three';
+import { useEffect, useRef, useState } from 'react';
+import { AdditiveBlending, Color, Group, MathUtils } from 'three';
 
 interface PlanetProps {
   destination: (typeof destinations)[number];
   index: number;
   active: boolean;
+  orbitPhase: number;
   onSelect: (index: number) => void;
 }
 
-const Planet = ({ destination, index, active, onSelect }: PlanetProps) => {
-  const mesh = useRef<Mesh>(null);
+const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProps) => {
+  const orbitingPlanet = useRef<Group>(null);
+  const visual = useRef<Group>(null);
+  const dragging = useRef(false);
+  const dragMoved = useRef(false);
+  const lastPointer = useRef({ x: 0, y: 0 });
+  const rotationTarget = useRef({ x: 0, y: index * 0.2 });
   const [hovered, setHovered] = useState(false);
 
+  useEffect(
+    () => () => {
+      document.body.style.cursor = '';
+    },
+    [],
+  );
+
   useFrame((state, delta) => {
-    if (!mesh.current) return;
-    mesh.current.rotation.y += delta * (0.08 + index * 0.012);
-    mesh.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.22 + index) * 0.1;
-    const scale = active ? 1.16 : hovered ? 1.08 : 1;
-    mesh.current.scale.x = MathUtils.damp(mesh.current.scale.x, scale, 5, delta);
-    mesh.current.scale.y = MathUtils.damp(mesh.current.scale.y, scale, 5, delta);
-    mesh.current.scale.z = MathUtils.damp(mesh.current.scale.z, scale, 5, delta);
+    if (!orbitingPlanet.current || !visual.current) return;
+    const [x, y, z] = getOrbitPosition(destination, state.clock.elapsedTime, orbitPhase);
+    orbitingPlanet.current.position.set(x, y, z);
+
+    if (!dragging.current) {
+      rotationTarget.current.y += delta * (0.08 + index * 0.012);
+    }
+
+    visual.current.rotation.x = MathUtils.damp(
+      visual.current.rotation.x,
+      rotationTarget.current.x,
+      12,
+      delta,
+    );
+    visual.current.rotation.y = MathUtils.damp(
+      visual.current.rotation.y,
+      rotationTarget.current.y,
+      12,
+      delta,
+    );
+
+    const scale = active ? 2.1 : hovered ? 1.15 : 1;
+    visual.current.scale.x = MathUtils.damp(visual.current.scale.x, scale, 5, delta);
+    visual.current.scale.y = MathUtils.damp(visual.current.scale.y, scale, 5, delta);
+    visual.current.scale.z = MathUtils.damp(visual.current.scale.z, scale, 5, delta);
   });
 
-  const handleClick = (event: ThreeEvent<MouseEvent>) => {
+  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
-    onSelect(index);
+    dragging.current = true;
+    dragMoved.current = false;
+    lastPointer.current = { x: event.clientX, y: event.clientY };
+    (event.target as Element).setPointerCapture(event.pointerId);
+    document.body.style.cursor = 'grabbing';
+  };
+
+  const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
+    if (!dragging.current) return;
+    event.stopPropagation();
+
+    const deltaX = event.clientX - lastPointer.current.x;
+    const deltaY = event.clientY - lastPointer.current.y;
+    if (Math.abs(deltaX) + Math.abs(deltaY) > 1) {
+      dragMoved.current = true;
+    }
+
+    rotationTarget.current.y += deltaX * 0.012;
+    rotationTarget.current.x = MathUtils.clamp(
+      rotationTarget.current.x + deltaY * 0.012,
+      -Math.PI / 2,
+      Math.PI / 2,
+    );
+    lastPointer.current = { x: event.clientX, y: event.clientY };
+  };
+
+  const handlePointerUp = (event: ThreeEvent<PointerEvent>) => {
+    if (!dragging.current) return;
+    event.stopPropagation();
+    dragging.current = false;
+    (event.target as Element).releasePointerCapture(event.pointerId);
+    document.body.style.cursor = hovered ? 'grab' : '';
+
+    if (!dragMoved.current) {
+      onSelect(index);
+    }
+  };
+
+  const handlePointerCancel = (event: ThreeEvent<PointerEvent>) => {
+    dragging.current = false;
+    dragMoved.current = false;
+    (event.target as Element).releasePointerCapture(event.pointerId);
+    document.body.style.cursor = '';
   };
 
   return (
-    <Float speed={0.65 + index * 0.06} rotationIntensity={0.18} floatIntensity={0.28}>
-      <group position={destination.position} scale={destination.size}>
-        <mesh
-          ref={mesh}
-          onClick={handleClick}
-          onPointerEnter={(event) => {
-            event.stopPropagation();
-            setHovered(true);
-            document.body.style.cursor = 'pointer';
-          }}
-          onPointerLeave={() => {
-            setHovered(false);
-            document.body.style.cursor = '';
-          }}
-        >
-          <icosahedronGeometry args={[1, 4]} />
-          <meshStandardMaterial
-            color={destination.color}
-            emissive={new Color(destination.color).multiplyScalar(0.22)}
-            emissiveIntensity={active ? 1.2 : 0.75}
-            metalness={0.32}
-            roughness={0.52}
-          />
-        </mesh>
-        <mesh rotation={[Math.PI / 2.35, 0.15 + index * 0.1, 0]} scale={1.45}>
-          <torusGeometry args={[1, active ? 0.028 : 0.015, 8, 96]} />
-          <meshBasicMaterial
-            color={destination.color}
-            transparent
-            opacity={active ? 0.75 : 0.32}
-            blending={AdditiveBlending}
-          />
-        </mesh>
+    <group ref={orbitingPlanet} scale={destination.size}>
+        <group ref={visual}>
+          <mesh
+            scale={1.52}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
+            onPointerEnter={(event) => {
+              event.stopPropagation();
+              setHovered(true);
+              if (!dragging.current) document.body.style.cursor = 'grab';
+            }}
+            onPointerLeave={() => {
+              setHovered(false);
+              if (!dragging.current) document.body.style.cursor = '';
+            }}
+          >
+            <sphereGeometry args={[1, 24, 24]} />
+            <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+          </mesh>
+          <mesh>
+            <icosahedronGeometry args={[1, 4]} />
+            <meshStandardMaterial
+              color={destination.color}
+              emissive={new Color(destination.color).multiplyScalar(0.22)}
+              emissiveIntensity={active ? 1.2 : 0.75}
+              metalness={0.32}
+              roughness={0.52}
+            />
+          </mesh>
+          <mesh rotation={[Math.PI / 2.35, 0.15 + index * 0.1, 0]} scale={1.45}>
+            <torusGeometry args={[1, active ? 0.028 : 0.015, 8, 96]} />
+            <meshBasicMaterial
+              color={destination.color}
+              transparent
+              opacity={active ? 0.75 : 0.32}
+              blending={AdditiveBlending}
+            />
+          </mesh>
+        </group>
         <Html center position={[0, -1.45, 0]} distanceFactor={8} zIndexRange={[20, 0]}>
           <button
             type='button'
@@ -78,7 +160,6 @@ const Planet = ({ destination, index, active, onSelect }: PlanetProps) => {
           </button>
         </Html>
       </group>
-    </Float>
   );
 };
 

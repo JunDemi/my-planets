@@ -1,18 +1,24 @@
 import { destinations } from '@/config/portfolio-data';
+import { getOrbitPosition } from '@/config/orbit';
 import { useFrame } from '@react-three/fiber';
 import { useReducedMotion } from 'framer-motion';
-import { useMemo, useRef } from 'react';
-import { Group, MathUtils, Vector3 } from 'three';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { MathUtils, Vector3 } from 'three';
 import OrbitLines from './OrbitLines';
 import Planet from './Planet';
+import Sun from './Sun';
 import { BasicThreeSceneProps } from '../BasicThreeScene';
 
 const Universe = ({ activeIndex, onSelect }: BasicThreeSceneProps) => {
   const reducedMotion = useReducedMotion();
-  const world = useRef<Group>(null);
   const lookAt = useRef(new Vector3());
   const targetCamera = useMemo(() => new Vector3(), []);
   const targetLook = useMemo(() => new Vector3(), []);
+  const [orbitPhase, setOrbitPhase] = useState(0);
+
+  const advanceOrbits = useCallback((deltaX: number) => {
+    setOrbitPhase((current) => current + deltaX * 0.008);
+  }, []);
 
   useFrame((state, delta) => {
     if (activeIndex === null) {
@@ -20,8 +26,13 @@ const Universe = ({ activeIndex, onSelect }: BasicThreeSceneProps) => {
       targetLook.set(0, 0, 0);
     } else {
       const destination = destinations[activeIndex];
-      targetCamera.set(destination.position[0] + 0.8, destination.position[1] + 0.15, destination.position[2] + 4.5);
-      targetLook.set(destination.position[0] + 1.65, destination.position[1], destination.position[2]);
+      const [x, y, z] = getOrbitPosition(
+        destination,
+        state.clock.elapsedTime,
+        orbitPhase,
+      );
+      targetCamera.set(x + 0.8, y + 0.15, z + 4.5);
+      targetLook.set(x + 1.65, y, z);
     }
 
     const speed = reducedMotion ? 20 : 2.6;
@@ -33,20 +44,19 @@ const Universe = ({ activeIndex, onSelect }: BasicThreeSceneProps) => {
     lookAt.current.z = MathUtils.damp(lookAt.current.z, targetLook.z, speed, delta);
     state.camera.lookAt(lookAt.current);
 
-    if (world.current && activeIndex === null && !reducedMotion) {
-      world.current.rotation.z += delta * 0.008;
-    }
   });
 
   return (
-    <group ref={world}>
-      <OrbitLines />
+    <group>
+      <Sun />
+      <OrbitLines onAdvance={advanceOrbits} />
       {destinations.map((destination, index) => (
         <Planet
           key={destination.id}
           destination={destination}
           index={index}
           active={activeIndex === index}
+          orbitPhase={orbitPhase}
           onSelect={onSelect}
         />
       ))}
