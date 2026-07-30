@@ -1,0 +1,116 @@
+export const portfolio = {
+  profile: {
+    name: 'Jungwok Park',
+    role: 'Frontend Engineer',
+    intro:
+      '복잡한 제품 경험을 명확한 인터페이스로 바꾸고, 성능과 디테일까지 책임지는 프론트엔드 개발자입니다.',
+    experience: '4 Years',
+    availability: 'Open to new opportunities',
+  },
+  stats: [
+    { value: '4+', label: 'Years building products' },
+    { value: '12+', label: 'Projects shipped' },
+    { value: '∞', label: 'Curiosity for the web' },
+  ],
+  skills: [
+    {
+      name: 'React',
+      category: 'Interface',
+      description: 'Hooks, Context, Zustand, TanStack Query를 활용한 확장 가능한 UI 설계',
+      color: '#7dd3fc',
+    },
+    {
+      name: 'Next.js',
+      category: 'Framework',
+      description: 'App Router, Server Components, SEO와 이미지 최적화를 고려한 제품 개발',
+      color: '#f8fafc',
+    },
+    {
+      name: 'TypeScript',
+      category: 'Language',
+      description: '도메인 모델과 API 경계를 명확히 만드는 타입 중심 개발',
+      color: '#60a5fa',
+    },
+    {
+      name: 'Expo',
+      category: 'Mobile',
+      description: 'React Native와 Expo를 활용한 크로스 플랫폼 앱 경험',
+      color: '#c4b5fd',
+    },
+    {
+      name: 'AWS',
+      category: 'Cloud',
+      description: 'S3, CloudFront, Lambda를 연결한 안정적인 서비스 아키텍처',
+      color: '#fbbf24',
+    },
+    {
+      name: 'Docker',
+      category: 'Platform',
+      description: '재현 가능한 개발 환경과 CI/CD 파이프라인 구성',
+      color: '#38bdf8',
+    },
+  ],
+  career: [
+    {
+      period: '2025 — Now',
+      company: 'Company C',
+      role: 'Frontend Engineer',
+      summary: '제품의 핵심 웹 경험과 디자인 시스템을 개발하고 성능 지표를 개선했습니다.',
+    },
+    {
+      period: '2023 — 2025',
+      company: 'Company B',
+      role: 'Frontend Developer',
+      summary: 'React와 Next.js 기반 서비스의 신규 기능 개발과 운영 안정화를 담당했습니다.',
+    },
+    {
+      period: '2022 — 2023',
+      company: 'Company A',
+      role: 'Junior Frontend Developer',
+      summary: '사용자 피드백을 제품 개선으로 연결하며 프론트엔드 개발 기반을 다졌습니다.',
+    },
+  ],
+  projects: [
+    {
+      index: '01',
+      name: 'Treat',
+      type: 'Mobile Experience',
+      description: '실시간 연결과 매끄러운 콘텐츠 경험에 집중한 크로스 플랫폼 서비스입니다.',
+      impact: 'Realtime interaction · Mobile-first UX',
+      stack: ['React Native', 'Expo', 'AWS', 'WebSocket'],
+    },
+    {
+      index: '02',
+      name: 'Orbit',
+      type: 'Web Platform',
+      description: '대규모 콘텐츠를 빠르게 탐색할 수 있도록 설계한 Next.js 기반 웹 플랫폼입니다.',
+      impact: 'Core Web Vitals · Search experience',
+      stack: ['Next.js', 'TypeScript', 'TanStack Query', 'CloudFront'],
+    },
+    {
+      index: '03',
+      name: 'Pulse',
+      type: 'Design System',
+      description: '제품군 전반의 일관성과 개발 속도를 높인 접근성 중심 디자인 시스템입니다.',
+      impact: 'Accessible UI · Faster delivery',
+      stack: ['React', 'Storybook', 'Radix UI', 'Chromatic'],
+    },
+  ],
+  architecture: ['Client', 'CloudFront', 'Signed Cookie', 'S3 (HLS)', 'Video'],
+  contact: [
+    { label: 'Email', href: 'mailto:hello@example.com' },
+    { label: 'GitHub', href: 'https://github.com/' },
+    { label: 'Blog', href: 'https://medium.com/' },
+    { label: 'Resume', href: '#career' },
+  ],
+} as const;
+
+export const destinations = [
+  { id: 'about', label: 'About', color: '#7dd3fc', position: [-5.2, 2.4, 0.5], size: 0.78 },
+  { id: 'career', label: 'Career', color: '#a78bfa', position: [-1.9, 3.5, -1.2], size: 0.94 },
+  { id: 'skills', label: 'Skills', color: '#38bdf8', position: [2.4, 2.7, 0], size: 0.82 },
+  { id: 'projects', label: 'Projects', color: '#fbbf24', position: [5.1, 0.2, -1.5], size: 1.1 },
+  { id: 'architecture', label: 'Architecture', color: '#34d399', position: [2.7, -3, 0.4], size: 0.74 },
+  { id: 'gallery', label: 'Gallery', color: '#fb7185', position: [-1.5, -3.6, -1], size: 0.88 },
+  { id: 'contact', label: 'Contact', color: '#e879f9', position: [-5, -1.4, 0], size: 0.68 },
+] as const;
