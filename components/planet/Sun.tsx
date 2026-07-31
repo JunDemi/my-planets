@@ -30,7 +30,7 @@ const Sun = () => {
         : child.material.clone();
     });
 
-    // ⭐ 중심 보정
+    // 중심 보정
     const box = new Box3().setFromObject(clone);
     const sphere = new Sphere();
 
@@ -38,9 +38,9 @@ const Sun = () => {
 
     clone.position.sub(sphere.center);
 
-    // ⭐ 모든 모델을 같은 기준 크기로 정규화
+    // 모든 모델을 같은 기준 크기로 정규화
     const radius = sphere.radius;
-    const targetRadius = 0.7; // 기존 태양 크기
+    const targetRadius = 0.7; // 태양 크기
 
     const scale = targetRadius / radius;
     clone.scale.setScalar(scale);

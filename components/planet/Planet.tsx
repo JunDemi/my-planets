@@ -115,7 +115,7 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
           <GlbModel modelPath={destination.modelPath} active={active} />
         </group>
       </group>
-      <Html center position={[0, -1.45, 0]} distanceFactor={8} zIndexRange={[20, 0]}>
+      <Html center position={[0, 1.45, 0]} distanceFactor={8} zIndexRange={[100, 0]}>
         <button
           type='button'
           onClick={() => onSelect(index)}

@@ -2,8 +2,7 @@ export const portfolio = {
   profile: {
     name: 'Jungwok Park',
     role: 'Frontend Engineer',
-    intro:
-      '복잡한 제품 경험을 명확한 인터페이스로 바꾸고, 성능과 디테일까지 책임지는 프론트엔드 개발자입니다.',
+    intro: '복잡한 제품 경험을 명확한 인터페이스로 바꾸고, 성능과 디테일까지 책임지는 프론트엔드 개발자입니다.',
     experience: '4 Years',
     availability: 'Open to new opportunities',
   },
@@ -16,13 +15,13 @@ export const portfolio = {
     {
       name: 'React',
       category: 'Interface',
-      description: 'Hooks, Context, Zustand, TanStack Query를 활용한 확장 가능한 UI 설계',
+      description: 'Hook Form, Tailwind CSS, Zustand, TanStack Query를 활용한 확장 가능한 UI 설계',
       color: '#7dd3fc',
     },
     {
       name: 'Next.js',
       category: 'Framework',
-      description: 'App Router, Server Components, SEO와 이미지 최적화를 고려한 제품 개발',
+      description: '앱 라우팅, SSR(프록시, 다국어처리, 테마), 이미지 최적화를 고려한 제품 개발',
       color: '#f8fafc',
     },
     {
@@ -34,58 +33,52 @@ export const portfolio = {
     {
       name: 'Expo',
       category: 'Mobile',
-      description: 'React Native와 Expo를 활용한 크로스 플랫폼 앱 경험',
+      description: 'React Native와 Expo를 활용한 네이티브/하이브리드 앱 개발',
       color: '#c4b5fd',
     },
     {
       name: 'AWS',
       category: 'Cloud',
-      description: 'S3, CloudFront, Lambda를 연결한 안정적인 서비스 아키텍처',
+      description: 'S3, CloudFront, Route53, Amplify를 연결한 서비스 아키텍처 구축',
       color: '#fbbf24',
     },
     {
       name: 'Docker',
       category: 'Platform',
-      description: '재현 가능한 개발 환경과 CI/CD 파이프라인 구성',
+      description: '도커 이미지 컨테이너 빌드로 CI/CD 파이프라인 구성',
       color: '#38bdf8',
     },
   ],
   career: [
     {
-      period: '2025 — Now',
-      company: 'Company C',
-      role: 'Frontend Engineer',
+      period: '2024 — Now',
+      company: '(주) 에이엠랩스',
+      role: 'Frontend Developer',
       summary: '제품의 핵심 웹 경험과 디자인 시스템을 개발하고 성능 지표를 개선했습니다.',
     },
     {
-      period: '2023 — 2025',
-      company: 'Company B',
+      period: '2022 — 2024',
+      company: '(주) 킨트',
       role: 'Frontend Developer',
       summary: 'React와 Next.js 기반 서비스의 신규 기능 개발과 운영 안정화를 담당했습니다.',
-    },
-    {
-      period: '2022 — 2023',
-      company: 'Company A',
-      role: 'Junior Frontend Developer',
-      summary: '사용자 피드백을 제품 개선으로 연결하며 프론트엔드 개발 기반을 다졌습니다.',
     },
   ],
   projects: [
     {
       index: '01',
       name: 'Treat',
-      type: 'Mobile Experience',
-      description: '실시간 연결과 매끄러운 콘텐츠 경험에 집중한 크로스 플랫폼 서비스입니다.',
+      type: '모바일 앱',
+      description: '실시간 연결과 매끄러운 콘텐츠 경험에 집중한 네이티브 앱입니다.',
       impact: 'Realtime interaction · Mobile-first UX',
       stack: ['React Native', 'Expo', 'AWS', 'WebSocket'],
     },
     {
       index: '02',
-      name: 'Orbit',
-      type: 'Web Platform',
+      name: '마이메디',
+      type: '웹 플랫폼',
       description: '대규모 콘텐츠를 빠르게 탐색할 수 있도록 설계한 Next.js 기반 웹 플랫폼입니다.',
       impact: 'Core Web Vitals · Search experience',
-      stack: ['Next.js', 'TypeScript', 'TanStack Query', 'CloudFront'],
+      stack: ['Next.js', 'TypeScript', 'TanStack Query', 'Recoil'],
     },
     {
       index: '03',
@@ -98,10 +91,16 @@ export const portfolio = {
   ],
   architecture: ['Client', 'CloudFront', 'Signed Cookie', 'S3 (HLS)', 'Video'],
   contact: [
-    { label: 'Email', href: 'mailto:hello@example.com' },
-    { label: 'GitHub', href: 'https://github.com/' },
-    { label: 'Blog', href: 'https://medium.com/' },
-    { label: 'Resume', href: '#career' },
+    { label: 'Phone', value: '010-3176-0315' },
+    { label: 'Address', value: '서울시 영등포구 신풍로 77' },
+    { label: 'Email', value: 'jungwook3176@gmail.com' },
+    { label: 'GitHub', value: 'https://github.com/JunDemi' },
+  ],
+  education: [
+    { label: 'Phone', value: '010-3176-0315' },
+    { label: 'Address', value: '서울시 영등포구 신풍로 77' },
+    { label: 'Email', value: 'jungwook3176@gmail.com' },
+    { label: 'GitHub', value: 'https://github.com/JunDemi' },
   ],
 } as const;
 
@@ -201,5 +200,5 @@ export const destinations = [
     orbitSpeed: 0.1,
     axialTilt: 0.5,
     size: 0.34,
-  }
+  },
 ] as const;

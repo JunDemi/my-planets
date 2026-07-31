@@ -14,6 +14,7 @@ import PlanetNavigation from './PlanetNavigation';
 import { getHashSnapshot, getServerHashSnapshot, subscribeToHash } from '@/config/utils';
 import { destinations } from '@/config/portfolio-data';
 import EducationPanel from './panel/Education';
+import Image from 'next/image';
 
 const panels = [
   <AboutPanel key='about' />,
@@ -76,7 +77,7 @@ const PortfolioExperience = () => {
             exit={{ opacity: 0 }}
           >
             <div className='max-w-xl'>
-              <p className='text-14m uppercase text-accent-soft'>Interactive portfolio · 2026</p>
+              <p className='text-14m uppercase text-accent-soft'>Park Jungwook · Portfolio</p>
               <h1 className='mt-5 text-[clamp(52px,7vw,96px)] font-semibold leading-[0.9] tracking-[-0.06em] text-foreground'>
                 Frontend
                 <br />
@@ -85,10 +86,11 @@ const PortfolioExperience = () => {
               <p className='mt-7 max-w-md text-16r text-muted'>
                 행성을 선택해 각 카테고리에 대한 정보를 확인해 보세요.
               </p>
-              <p className='mt-8 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-muted'>
+              <div className='mt-8 flex items-center gap-3'>
                 <span className='h-px w-8 bg-accent-soft' />
-                Click any planet to travel
-              </p>
+                <span className='text-[12px] font-semibold tracking-[0.2em] text-muted'>Made with Three.js </span>
+                <Image src='/icon/three.svg' alt='' width={32} height={32} />
+              </div>
             </div>
           </motion.section>
         ) : (
@@ -104,7 +106,6 @@ const PortfolioExperience = () => {
               type='button'
               onClick={showMap}
               className='absolute right-6 top-6 z-10 rounded-full border border-border-subtle px-3 py-1.5 text-[11px] text-muted transition-colors hover:text-foreground'
-              aria-label='Close section and return to universe map'
             >
               ESC
             </button>
