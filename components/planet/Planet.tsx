@@ -36,7 +36,7 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
     orbitingPlanet.current.position.set(x, y, z);
 
     if (!dragging.current) {
-      rotationTarget.current.y += delta * (0.08 + index * 0.012);
+      rotationTarget.current.y += delta * (0.08 + destination.rotateSpeed);
     }
 
     visual.current.rotation.x = MathUtils.damp(visual.current.rotation.x, rotationTarget.current.x, 12, delta);
@@ -93,23 +93,27 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
 
   return (
     <group ref={orbitingPlanet} scale={destination.size}>
-      <group
-        ref={visual}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerCancel}
-        onPointerEnter={(event) => {
-          event.stopPropagation();
-          setHovered(true);
-          if (!dragging.current) document.body.style.cursor = 'grab';
-        }}
-        onPointerLeave={() => {
-          setHovered(false);
-          if (!dragging.current) document.body.style.cursor = '';
-        }}
-      >
-        <GlbModel modelPath={destination.modelPath} active={active} />
+      <group rotation={[destination.axialTilt, 0, 0]}>
+        {' '}
+        {/* 자전축 기울기 */}
+        <group
+          ref={visual}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+          onPointerEnter={(event) => {
+            event.stopPropagation();
+            setHovered(true);
+            if (!dragging.current) document.body.style.cursor = 'grab';
+          }}
+          onPointerLeave={() => {
+            setHovered(false);
+            if (!dragging.current) document.body.style.cursor = '';
+          }}
+        >
+          <GlbModel modelPath={destination.modelPath} active={active} />
+        </group>
       </group>
       <Html center position={[0, -1.45, 0]} distanceFactor={8} zIndexRange={[20, 0]}>
         <button

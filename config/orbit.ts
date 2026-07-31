@@ -7,12 +7,8 @@ interface OrbitParameters {
   orbitSpeed: number;
 }
 
-export const getOrbitPosition = (
-  orbit: OrbitParameters,
-  elapsedTime: number,
-  phaseOffset = 0,
-) => {
-  const angle = orbit.initialAngle + elapsedTime * orbit.orbitSpeed + phaseOffset;
+export const getOrbitPosition = (orbit: OrbitParameters, elapsedTime: number, phaseOffset = 0) => {
+  const angle = orbit.initialAngle + elapsedTime * (orbit.orbitSpeed / 6.6) + phaseOffset;
   const localX = Math.cos(angle) * orbit.orbitRadius;
   const localY = Math.sin(angle) * orbit.orbitRadius * ORBIT_Y_SCALE;
 

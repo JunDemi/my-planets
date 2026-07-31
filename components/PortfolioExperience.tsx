@@ -13,6 +13,7 @@ import ContactPanel from './panel/ContactPanel';
 import PlanetNavigation from './PlanetNavigation';
 import { getHashSnapshot, getServerHashSnapshot, subscribeToHash } from '@/config/utils';
 import { destinations } from '@/config/portfolio-data';
+import EducationPanel from './panel/Education';
 
 const panels = [
   <AboutPanel key='about' />,
@@ -22,6 +23,7 @@ const panels = [
   <ArchitecturePanel key='architecture' />,
   <GalleryPanel key='gallery' />,
   <ContactPanel key='contact' />,
+  <EducationPanel key='education' />,
 ];
 
 const PortfolioExperience = () => {
@@ -81,7 +83,7 @@ const PortfolioExperience = () => {
                 <span className='text-accent'>Universe.</span>
               </h1>
               <p className='mt-7 max-w-md text-16r text-muted'>
-                행성을 선택해 Jungwok Park의 경험, 기술과 프로젝트를 탐험해 보세요.
+                행성을 선택해 각 카테고리에 대한 정보를 확인해 보세요.
               </p>
               <p className='mt-8 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-muted'>
                 <span className='h-px w-8 bg-accent-soft' />
@@ -110,7 +112,6 @@ const PortfolioExperience = () => {
           </motion.section>
         )}
       </AnimatePresence>
-
       <PlanetNavigation activeIndex={activeIndex} onSelect={selectDestination} />
     </main>
   );
