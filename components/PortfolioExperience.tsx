@@ -63,8 +63,19 @@ const PortfolioExperience = () => {
     <main className='relative h-screen overflow-hidden bg-surface-scene text-foreground'>
       <BasicThreeScene activeIndex={activeIndex} onSelect={selectDestination} />
 
-      <header className='pointer-events-none fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-end px-7 sm:px-5'>
-        <p className='pointer-events-none text-[14px] tracking-[0.16em] text-white'>← → 이동 · ESC 홈</p>
+      <header className='pointer-events-none fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-end gap-[20px] px-7 sm:px-5'>
+        <div className='flex items-center gap-[10px]'>
+          <Image src='/icon/esc.png' alt='' width={30} height={30} />
+          <span className='text-[13px]'>홈</span>
+        </div>
+        <div className='flex items-center gap-[10px]'>
+        <Image src='/icon/mouse.png' alt='' width={20} height={20} />
+          <span className='text-[13px]'>회전</span>
+        </div>
+        <div className='flex items-center gap-[10px]'>
+        <Image src='/icon/left-right.png' alt='' width={24} height={24} />
+          <span className='text-[13px]'>패널 이동</span>
+        </div>
       </header>
 
       <AnimatePresence mode='wait'>
@@ -88,7 +99,7 @@ const PortfolioExperience = () => {
               </p>
               <div className='mt-8 flex items-center gap-3'>
                 <span className='h-px w-8 bg-accent-soft' />
-                <span className='text-[12px] font-semibold tracking-[0.2em] text-muted'>Made with Three.js </span>
+                <span className='text-[12px] font-semibold tracking-[0.2em] text-muted'>Made with Three.js</span>
                 <Image src='/icon/three.svg' alt='' width={32} height={32} />
               </div>
             </div>

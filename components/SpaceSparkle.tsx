@@ -9,7 +9,7 @@ interface SpaceSparklesProps {
 const SpaceSparkles = ({ color, speed, opacity }: SpaceSparklesProps) => {
   return (
     <Sparkles
-      count={50}
+      count={60}
       scale={[30, 18, 24]}
       size={5}
       speed={speed}

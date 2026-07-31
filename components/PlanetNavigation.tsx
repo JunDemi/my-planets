@@ -13,12 +13,12 @@ const PlanetNavigation = ({ activeIndex, onSelect }: PlanetNavigationProps) => {
     >
       <ul className='flex min-w-max items-center gap-1'>
         {destinations.map((destination, index) => (
-          <li key={destination.id}>
+          <li key={destination.id} className='border-none outline-none'>
             <button
               type='button'
               onClick={() => onSelect(index)}
               aria-current={activeIndex === index ? 'page' : undefined}
-              className={`flex items-center gap-2 rounded-full px-3 py-2 text-[11px] font-medium transition-colors ${
+              className={`font-mediumtransition-colors flex items-center gap-2 !outline-none rounded-full px-3 py-2 text-[11px] ${
                 activeIndex === index
                   ? 'bg-white/10 text-foreground'
                   : 'text-muted hover:bg-white/[0.05] hover:text-foreground'

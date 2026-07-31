@@ -124,7 +124,7 @@ export const destinations = [
     color: '#a78bfa',
     orbitRadius: 2.5,
     initialAngle: 1.9,
-    rotateSpeed: 0.198,
+    rotateSpeed: 0.08,
     orbitSpeed: 0.72,
     axialTilt: 3.1,
     size: 0.26,
