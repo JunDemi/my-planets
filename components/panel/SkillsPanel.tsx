@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { portfolio } from '@/config/portfolio-data';
 import { useState } from 'react';
 import PanelHeading from './PanelHeading';
+import ReactIcons from '../ReactIcons';
 
 interface Skill {
   name: string;
@@ -17,25 +18,26 @@ const SkillsPanel = () => {
     <>
       <PanelHeading
         index={2}
-        title='목적을 향해 움직이는 기술.'
-        description='행성을 선택해 각 기술을 실제 제품에서 어떻게 사용하는지 확인해 보세요.'
+        title='기술 스택.'
+        description='실무에서 활용하는 기술과 꾸준히 탐구하고 있는 기술을 소개합니다.'
       />
-      <div className='mt-8 grid grid-cols-3 gap-2 sm:grid-cols-2'>
+      <div className='mt-8 grid grid-cols-4 gap-2 sm:grid-cols-3'>
         {portfolio.skills.map((skill) => (
           <button
             key={skill.name}
             type='button'
             onClick={() => setSelected(skill)}
-            className={`rounded-[18px] border p-4 text-left transition-colors ${
+            className={`rounded-[18px] border p-3 text-left transition-colors ${
               selected.name === skill.name
                 ? 'border-accent/60 bg-accent/10'
                 : 'border-border-subtle bg-white/[0.025] hover:border-white/25'
             }`}
           >
-            <span
+            {/* <span
               className='mb-4 block h-5 w-5 rounded-full shadow-[0_0_18px_currentColor]'
               style={{ backgroundColor: skill.color, color: skill.color }}
-            />
+            /> */}
+            <ReactIcons type={skill.name} color={skill.color} />
             <span className='text-[14px] font-semibold text-foreground'>{skill.name}</span>
           </button>
         ))}

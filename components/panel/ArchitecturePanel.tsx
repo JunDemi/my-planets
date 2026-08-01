@@ -7,8 +7,8 @@ const ArchitecturePanel = () => {
     <>
       <PanelHeading
         index={4}
-        title='보이지 않는 흐름까지 설계합니다.'
-        description='사용자의 요청이 안전하게 콘텐츠에 도달하는 과정을 단순한 구조로 표현했습니다.'
+        title='시스템 아키텍처.'
+        description='기능 뒤에 숨겨진 설계와 기술적인 고민을 공유합니다.'
       />
       <div className='mt-9 flex flex-col items-center'>
         {portfolio.architecture.map((node, index) => (

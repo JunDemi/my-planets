@@ -6,8 +6,8 @@ const ContactPanel = () => {
     <>
       <PanelHeading
         index={6}
-        title='함께 다음 궤적을 만들어 볼까요?'
-        description='새로운 제품, 흥미로운 문제, 프론트엔드에 관한 대화를 언제든 환영합니다.'
+        title='연락처.'
+        description='새로운 기회와 협업을 언제나 환영합니다.'
       />
       <div className='mt-10 grid grid-cols-2 gap-3'>
         {portfolio.contact.map((item, i) => (

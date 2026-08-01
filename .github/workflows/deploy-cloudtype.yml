@@ -27,7 +27,9 @@ jobs:
               nodeversion: "24"
               install: yarn
               build: yarn build
-              env: []
+              env:
+                - name: NEXT_PUBLIC_API_KEY
+                  value: ${{ secrets.NEXT_PUBLIC_API_KEY }}
               buildenv: []
             context:
               git:

@@ -6,8 +6,8 @@ const GalleryPanel = () => {
     <>
       <PanelHeading
         index={5}
-        title='제품의 순간을 전시합니다.'
-        description='실제 프로젝트 스크린샷과 케이스 스터디 링크로 교체할 수 있는 갤러리입니다.'
+        title='제품의 순간을 전시.'
+        description='프로젝트 화면과 디자인, 개발 과정의 다양한 기록입니다.'
       />
       <div className='mt-8 grid grid-cols-2 gap-3 sm:grid-cols-1'>
         {portfolio.projects.map((project, index) => (

@@ -6,10 +6,10 @@ const ProjectsPanel = () => {
     <>
       <PanelHeading
         index={3}
-        title='문제를 해결하고 결과를 남긴 프로젝트.'
-        description='제품 목표, 사용자 경험, 기술적 선택을 하나의 이야기로 연결합니다.'
+        title='프로젝트.'
+        description='아이디어를 서비스로 구현하며 쌓아온 결과물입니다.'
       />
-      <div className='mt-8 space-y-3'>
+      <div className='mt-8 space-y-3 overflow-y-scroll'>
         {portfolio.projects.map((project) => (
           <article
             key={project.name}

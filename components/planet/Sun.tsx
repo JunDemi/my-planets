@@ -17,7 +17,7 @@ const Sun = () => {
   const glow = useRef<Mesh>(null);
   const glowOuter = useRef<Mesh>(null);
 
-  const { scene } = useGLTF('/sun.glb');
+  const { scene } = useGLTF('/planet/sun.glb');
 
   const model = useMemo(() => {
     const clone = scene.clone(true);
@@ -156,6 +156,6 @@ const Sun = () => {
   );
 };
 
-useGLTF.preload('/sun.glb');
+useGLTF.preload('/planet/sun.glb');
 
 export default Sun;

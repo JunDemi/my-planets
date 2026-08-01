@@ -13,7 +13,7 @@ import ContactPanel from './panel/ContactPanel';
 import PlanetNavigation from './PlanetNavigation';
 import { getHashSnapshot, getServerHashSnapshot, subscribeToHash } from '@/config/utils';
 import { destinations } from '@/config/portfolio-data';
-import EducationPanel from './panel/Education';
+import GuestbookPanel from './panel/Guestbook';
 import Image from 'next/image';
 
 const panels = [
@@ -24,7 +24,7 @@ const panels = [
   <ArchitecturePanel key='architecture' />,
   <GalleryPanel key='gallery' />,
   <ContactPanel key='contact' />,
-  <EducationPanel key='education' />,
+  <GuestbookPanel key='guestbook' />,
 ];
 
 const PortfolioExperience = () => {
@@ -88,9 +88,9 @@ const PortfolioExperience = () => {
             exit={{ opacity: 0 }}
           >
             <div className='max-w-xl'>
-              <p className='text-14m uppercase text-accent-soft'>Park Jungwook · Portfolio</p>
+              <p className='text-14m text-accent-soft'>박정욱 · Frontend Developer</p>
               <h1 className='mt-5 text-[clamp(52px,7vw,96px)] font-semibold leading-[0.9] tracking-[-0.06em] text-foreground'>
-                Frontend
+                Portfolio
                 <br />
                 <span className='text-accent'>Universe.</span>
               </h1>
@@ -107,7 +107,8 @@ const PortfolioExperience = () => {
         ) : (
           <motion.section
             key={destinations[activeIndex].id}
-            className='bg-surface-scene/82 pointer-events-auto fixed bottom-24 right-6 top-24 z-30 w-[min(610px,calc(100vw-48px))] overflow-y-auto rounded-[28px] border border-border-subtle p-8 shadow-2xl backdrop-blur-2xl scrollbar-hide sm:bottom-20 sm:right-4 sm:top-[38%] sm:w-[calc(100vw-32px)] sm:p-6'
+            data-orbit-ignore-wheel
+            className='bg-surface-scene/82 pointer-events-auto fixed bottom-24 right-6 top-24 z-30 w-[600px] overflow-y-auto rounded-[28px] border border-border-subtle p-8 shadow-2xl backdrop-blur-2xl'
             initial={reducedMotion ? false : { opacity: 0, x: 48, scale: 0.98 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 30, scale: 0.98 }}

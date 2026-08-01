@@ -41,6 +41,11 @@ const OrbitLines = ({ onAdvance }: OrbitLinesProps) => {
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest('[data-orbit-ignore-wheel]')) {
+        return;
+      }
+
       event.preventDefault();
 
       // 기존보다 감도 절반 이하
