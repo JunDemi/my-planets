@@ -7,7 +7,7 @@ const ProjectsPanel = () => {
       <PanelHeading
         index={3}
         title='프로젝트.'
-        description='아이디어를 서비스로 구현하며 쌓아온 결과물입니다.'
+        description='팀원들과 함께 아이디어를 서비스로 구현한 결과물입니다.'
       />
       <div className='mt-8 space-y-3 overflow-y-scroll'>
         {portfolio.projects.map((project) => (
