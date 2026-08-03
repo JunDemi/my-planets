@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Jungwok Park — Frontend Engineer',
+  title: 'Portfolio Universe(박정욱)',
 };
 
 export default function RootLayout({

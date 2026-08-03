@@ -69,11 +69,11 @@ const PortfolioExperience = () => {
           <span className='text-[13px]'>홈</span>
         </div>
         <div className='flex items-center gap-[10px]'>
-        <Image src='/icon/mouse.png' alt='' width={20} height={20} />
+          <Image src='/icon/mouse.png' alt='' width={20} height={20} />
           <span className='text-[13px]'>회전</span>
         </div>
         <div className='flex items-center gap-[10px]'>
-        <Image src='/icon/left-right.png' alt='' width={24} height={24} />
+          <Image src='/icon/left-right.png' alt='' width={24} height={24} />
           <span className='text-[13px]'>패널 이동</span>
         </div>
       </header>
@@ -108,7 +108,7 @@ const PortfolioExperience = () => {
           <motion.section
             key={destinations[activeIndex].id}
             data-orbit-ignore-wheel
-            className='bg-surface-scene/82 pointer-events-auto fixed bottom-24 right-6 top-24 z-30 w-[600px] overflow-y-auto rounded-[28px] border border-border-subtle p-8 shadow-2xl backdrop-blur-2xl'
+            className='bg-surface-scene/82 pointer-events-auto fixed bottom-24 right-6 top-24 z-30 w-[600px] overflow-y-auto rounded-[28px] border border-border-subtle p-8 shadow-2xl backdrop-blur-2xl scrollbar-hide'
             initial={reducedMotion ? false : { opacity: 0, x: 48, scale: 0.98 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 30, scale: 0.98 }}

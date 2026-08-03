@@ -22,7 +22,7 @@ const ReactIcons = ({ type, size = 24, color = '#FFF' }: ReactIconsProps) => {
     Form: <SiZod size={size} color={color} />,
     'Data View': <MdBarChart size={size} color={color} />,
     'Framer Motion': <SiFramer size={size} color={color} />,
-    State: <SiRedux size={size} color={color} />,
+    'Global State': <SiRedux size={size} color={color} />,
     AWS: <FaAws size={size} color={color} />,
     Docker: <FaDocker size={size} color={color} />,
     Firebase: <SiFirebase size={size} color={color} />,

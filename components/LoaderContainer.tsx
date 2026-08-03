@@ -5,7 +5,7 @@ const LoaderContainer = ({ progress }: { progress: number }) => {
   return (
     <Html center>
       <div className='flex flex-col items-center justify-center gap-[5px] bg-black/70 px-6 py-4 text-white'>
-        <span className='text-[16px]'>Loading...</span>
+        <span className='text-[14px]'>태양계를 불러오고 있습니다...</span>
         <div className='flex items-center gap-[10px]'>
           <div className='relative h-[2px] w-[200px] bg-accent-soft/20'>
             <div

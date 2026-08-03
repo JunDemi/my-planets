@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PanelHeading from './PanelHeading';
 import { NSMemo } from '@/types/memo';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { compareTimeFormat } from '@/config/utils';
+import LoadingSpiner from '../common/LoadingSpinner';
 
 const GuestbookPanel = () => {
   const [newMemo, setNewMemo] = useState<string>('');
@@ -21,33 +22,41 @@ const GuestbookPanel = () => {
       }),
     onSuccess: () => {
       refetch();
+      setNewMemo('');
     },
   });
+
+  const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    if (isPending) return;
+    e.preventDefault();
+    mutate();
+  };
 
   return (
     <div className='absolute inset-8 flex flex-col'>
       <div className='shrink-0 pr-16'>
-        <PanelHeading index={7} title='방명록.' description='방문해 주신 흔적을 남겨주세요. 한마디도 큰 힘이 됩니다.' />
+        <PanelHeading index={7} title='방명록.' description='방문해 주신 흔적을 남겨주세요.' />
       </div>
 
-      <div className='mt-8 min-h-0 flex-1 space-y-3 overflow-y-auto pr-1'>
-        {memoList.map((item) => (
-          <p
-            key={item.id}
-            className='flex items-center justify-between gap-4 rounded-[18px] border border-border-subtle bg-white/[0.035] px-5 py-4 text-foreground transition-all hover:border-accent/60 hover:text-accent'
-          >
-            <span className='text-[12px] font-semibold'>{item.message}</span>
-            <span className='shrink-0 text-[12px] font-bold text-white'>{compareTimeFormat(item.date)}</span>
-          </p>
-        ))}
+      <div className='mt-8 min-h-0 flex-1 space-y-3 overflow-y-auto pr-1 scrollbar-hide'>
+        {isFetching ? (
+          <LoadingSpiner />
+        ) : (
+          memoList.map((item) => (
+            <p
+              key={item.id}
+              className='flex items-center justify-between gap-4 rounded-[18px] border border-border-subtle bg-white/[0.035] px-5 py-4 text-foreground transition-all hover:border-accent/60 hover:text-accent'
+            >
+              <span className='text-[12px] font-semibold'>{item.message}</span>
+              <span className='shrink-0 text-[12px] font-bold text-white'>{compareTimeFormat(item.date)}</span>
+            </p>
+          ))
+        )}
       </div>
 
       <form
         className='mt-4 flex w-full shrink-0 items-center gap-[10px] rounded-[18px] border border-border-subtle bg-white/[0.035] px-5 transition-colors'
-        onSubmit={(e) => {
-          e.preventDefault();
-          mutate();
-        }}
+        onSubmit={onSubmit}
       >
         <input
           type='text'
