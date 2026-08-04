@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { portfolio } from '@/config/portfolio-data';
 import { useState } from 'react';
 import PanelHeading from './PanelHeading';
-import ReactIcons from '../ReactIcons';
+import ReactIcons from '../common/ReactIcons';
 
 interface Skill {
   name: string;

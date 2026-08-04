@@ -1,10 +1,10 @@
 'use client';
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { portfolio, storageUrl } from '@/config/portfolio-data';
+import SkeletonImage from '../common/SkeletonImage';
 import PanelHeading from './PanelHeading';
 
 const GalleryPanel = () => {
@@ -63,7 +63,7 @@ const GalleryPanel = () => {
                   className='group overflow-hidden rounded-[20px] border border-border-subtle bg-white/[0.025] text-left transition-colors hover:border-accent/40'
                 >
                   <div className='relative aspect-[4/3] overflow-hidden bg-scene-panel'>
-                    <Image
+                    <SkeletonImage
                       src={`${storageUrl}/gallery${gallery.images[0]}`}
                       alt=''
                       fill
@@ -126,7 +126,7 @@ const GalleryPanel = () => {
                   aria-label={`${selectedGallery.name} 프로젝트 이미지 ${index + 1} 크게 보기`}
                 >
                   <div className='relative aspect-[16/10] bg-scene-panel'>
-                    <Image
+                    <SkeletonImage
                       src={`${storageUrl}/gallery${image}`}
                       alt={`${selectedGallery.name} 프로젝트 이미지 ${index + 1}`}
                       fill
@@ -204,7 +204,7 @@ const GalleryPanel = () => {
               transition={{ duration: 0.25, ease: 'easeOut' }}
               onClick={(event) => event.stopPropagation()}
             >
-              <Image
+              <SkeletonImage
                 src={`${storageUrl}/gallery${selectedGallery.images[selectedImageIndex]}`}
                 alt={`${selectedGallery.name} 프로젝트 이미지 ${selectedImageIndex + 1}`}
                 fill
