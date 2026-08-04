@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PanelHeading from './PanelHeading';
-import { NSMemo } from '@/types/memo';
+import { MemoResponse } from '@/types/memo';
 import { useState } from 'react';
 import { compareTimeFormat } from '@/config/utils';
 import LoadingSpiner from '../common/LoadingSpinner';
@@ -8,7 +8,7 @@ import LoadingSpiner from '../common/LoadingSpinner';
 const GuestbookPanel = () => {
   const [newMemo, setNewMemo] = useState<string>('');
 
-  const { data, isFetching, refetch } = useQuery<NSMemo.Response>({
+  const { data, isFetching, refetch } = useQuery<MemoResponse>({
     queryKey: ['/api/memo/list'],
     queryFn: () => fetch('/api/memo/list').then((res) => res.json()),
   });
@@ -20,9 +20,11 @@ const GuestbookPanel = () => {
         method: 'POST',
         body: JSON.stringify({ message: newMemo }),
       }),
-    onSuccess: () => {
-      refetch();
-      setNewMemo('');
+    onSuccess: (res) => {
+      if (res.status === 200 || res.ok === true) {
+        refetch();
+        setNewMemo('');
+      }
     },
   });
 

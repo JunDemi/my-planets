@@ -15,10 +15,10 @@ export const readMemo = async () => {
   return resultArray;
 };
 
-export const createMemo = async (input: { message: string }) => {
+export const createMemo = async (message: string) => {
   //DB추가
   await addDoc(collection(db, 'memos'), {
-    message: input.message,
+    message,
     date: Date.now(),
   });
 };

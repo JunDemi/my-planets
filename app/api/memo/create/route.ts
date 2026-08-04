@@ -8,11 +8,9 @@ export async function POST(request: Request) {
       return Response.json({ error: '잘못된 요청 본문' }, { status: 400 });
     }
 
-    await createMemo({
-      message,
-    });
+    await createMemo(message as string);
 
-    return Response.json({ ok: true }, { status: 201 });
+    return Response.json({ ok: true }, { status: 200 });
   } catch (err) {
     console.error(err);
     return Response.json({ error: '서버 오류' }, { status: 500 });

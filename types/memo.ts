@@ -1,4 +1,4 @@
-interface CommonResponse<T> {
+export interface CommonResponse<T> {
   status: string;
   result: T;
 }
@@ -9,6 +9,4 @@ export interface Memo {
   message: string;
 }
 
-export namespace NSMemo {
-  export interface Response extends CommonResponse<Memo[]> {}
-}
+export interface MemoResponse extends CommonResponse<Memo[]> {}

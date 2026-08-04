@@ -1,9 +1,10 @@
 import { readMemo } from '@/firebase/content';
+import { Memo } from '@/types/memo';
 
 export async function GET() {
   try {
     const memoList = await readMemo();
-    const formattedMemoList = memoList.map(({ id, date, message }) => ({
+    const formattedMemoList: Memo[] = memoList.map(({ id, date, message }) => ({
       id,
       date,
       message,
