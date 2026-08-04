@@ -10,6 +10,7 @@ import {
   MeshStandardMaterial,
   Sphere,
 } from 'three';
+import { storageUrl } from '@/config/portfolio-data';
 
 const Sun = () => {
   const sun = useRef<Group>(null);
@@ -17,7 +18,7 @@ const Sun = () => {
   const glow = useRef<Mesh>(null);
   const glowOuter = useRef<Mesh>(null);
 
-  const { scene } = useGLTF('/planet/sun.glb');
+  const { scene } = useGLTF(`${storageUrl}/planet/sun.glb`);
 
   const model = useMemo(() => {
     const clone = scene.clone(true);
@@ -25,9 +26,7 @@ const Sun = () => {
     clone.traverse((child) => {
       if (!(child instanceof Mesh)) return;
 
-      child.material = Array.isArray(child.material)
-        ? child.material.map((m) => m.clone())
-        : child.material.clone();
+      child.material = Array.isArray(child.material) ? child.material.map((m) => m.clone()) : child.material.clone();
     });
 
     // 중심 보정
@@ -52,9 +51,7 @@ const Sun = () => {
     model.traverse((child) => {
       if (!(child instanceof Mesh)) return;
 
-      const materials = Array.isArray(child.material)
-        ? child.material
-        : [child.material];
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
 
       materials.forEach((material) => {
         if (!(material instanceof MeshStandardMaterial)) return;
@@ -89,12 +86,7 @@ const Sun = () => {
 
   return (
     <group ref={sun}>
-      <pointLight
-        color="#ffb84d"
-        intensity={30}
-        distance={15}
-        decay={1.5}
-      />
+      <pointLight color='#ffb84d' intensity={30} distance={15} decay={1.5} />
 
       {/* GLB Sun */}
       <group ref={core}>
@@ -105,7 +97,7 @@ const Sun = () => {
       <mesh ref={glow} scale={1.1}>
         <sphereGeometry args={[0.33, 64, 64]} />
         <meshBasicMaterial
-          color="#ffb347"
+          color='#ffb347'
           transparent
           opacity={0.22}
           side={BackSide}
@@ -118,7 +110,7 @@ const Sun = () => {
       <mesh scale={1.5}>
         <sphereGeometry args={[0.33, 64, 64]} />
         <meshBasicMaterial
-          color="#ff9f43"
+          color='#ff9f43'
           transparent
           opacity={0.1}
           side={BackSide}
@@ -131,7 +123,7 @@ const Sun = () => {
       <mesh scale={1.7}>
         <sphereGeometry args={[0.33, 64, 64]} />
         <meshBasicMaterial
-          color="#ff7a18"
+          color='#ff7a18'
           transparent
           opacity={0.045}
           side={BackSide}
@@ -144,7 +136,7 @@ const Sun = () => {
       <mesh ref={glowOuter}>
         <sphereGeometry args={[0.52, 64, 64]} />
         <meshBasicMaterial
-          color="#ffd280"
+          color='#ffd280'
           transparent
           opacity={0.015}
           side={BackSide}
@@ -156,6 +148,6 @@ const Sun = () => {
   );
 };
 
-useGLTF.preload('/planet/sun.glb');
+useGLTF.preload(`${storageUrl}/planet/sun.glb`);
 
 export default Sun;

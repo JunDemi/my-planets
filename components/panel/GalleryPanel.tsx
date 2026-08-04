@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { portfolio } from '@/config/portfolio-data';
+import { portfolio, storageUrl } from '@/config/portfolio-data';
 import PanelHeading from './PanelHeading';
 
 const GalleryPanel = () => {
@@ -29,9 +29,7 @@ const GalleryPanel = () => {
 
   const showPreviousImage = () => {
     if (selectedGallery === null || selectedImageIndex === null) return;
-    setSelectedImageIndex(
-      (selectedImageIndex - 1 + selectedGallery.images.length) % selectedGallery.images.length,
-    );
+    setSelectedImageIndex((selectedImageIndex - 1 + selectedGallery.images.length) % selectedGallery.images.length);
   };
 
   const showNextImage = () => {
@@ -66,7 +64,7 @@ const GalleryPanel = () => {
                 >
                   <div className='relative aspect-[4/3] overflow-hidden bg-scene-panel'>
                     <Image
-                      src={gallery.images[0]}
+                      src={`${storageUrl}/gallery${gallery.images[0]}`}
                       alt=''
                       fill
                       sizes='(max-width: 750px) 100vw, 270px'
@@ -113,9 +111,7 @@ const GalleryPanel = () => {
                 {selectedGallery.case}
               </p>
               <div className='mt-2 flex items-end justify-between gap-4'>
-                <h2 className='text-[28px] font-semibold tracking-[-0.04em] text-foreground'>
-                  {selectedGallery.name}
-                </h2>
+                <h2 className='text-[28px] font-semibold tracking-[-0.04em] text-foreground'>{selectedGallery.name}</h2>
                 <span className='shrink-0 text-[11px] text-muted'>{selectedGallery.images.length} images</span>
               </div>
             </div>
@@ -131,7 +127,7 @@ const GalleryPanel = () => {
                 >
                   <div className='relative aspect-[16/10] bg-scene-panel'>
                     <Image
-                      src={image}
+                      src={`${storageUrl}/gallery${image}`}
                       alt={`${selectedGallery.name} 프로젝트 이미지 ${index + 1}`}
                       fill
                       sizes='540px'
@@ -167,7 +163,7 @@ const GalleryPanel = () => {
             <button
               type='button'
               onClick={() => setSelectedImageIndex(null)}
-              className='absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-[20px] text-white transition-colors hover:border-white/40'
+              className='border-white/15 absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border bg-black/40 text-[20px] text-white transition-colors hover:border-white/40'
               aria-label='이미지 닫기'
             >
               ×
@@ -181,7 +177,7 @@ const GalleryPanel = () => {
                     event.stopPropagation();
                     showPreviousImage();
                   }}
-                  className='absolute left-6 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/40 text-[22px] text-white transition-colors hover:border-white/40'
+                  className='border-white/15 absolute left-6 z-10 flex h-11 w-11 items-center justify-center rounded-full border bg-black/40 text-[22px] text-white transition-colors hover:border-white/40'
                   aria-label='이전 이미지'
                 >
                   ←
@@ -192,7 +188,7 @@ const GalleryPanel = () => {
                     event.stopPropagation();
                     showNextImage();
                   }}
-                  className='absolute right-6 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/40 text-[22px] text-white transition-colors hover:border-white/40'
+                  className='border-white/15 absolute right-6 z-10 flex h-11 w-11 items-center justify-center rounded-full border bg-black/40 text-[22px] text-white transition-colors hover:border-white/40'
                   aria-label='다음 이미지'
                 >
                   →
@@ -209,7 +205,7 @@ const GalleryPanel = () => {
               onClick={(event) => event.stopPropagation()}
             >
               <Image
-                src={selectedGallery.images[selectedImageIndex]}
+                src={`${storageUrl}/gallery${selectedGallery.images[selectedImageIndex]}`}
                 alt={`${selectedGallery.name} 프로젝트 이미지 ${selectedImageIndex + 1}`}
                 fill
                 sizes='88vw'

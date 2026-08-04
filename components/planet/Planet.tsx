@@ -94,7 +94,6 @@ const Planet = ({ destination, index, active, orbitPhase, onSelect }: PlanetProp
   return (
     <group ref={orbitingPlanet} scale={destination.size}>
       <group rotation={[destination.axialTilt, 0, 0]}>
-        {' '}
         {/* 자전축 기울기 */}
         <group
           ref={visual}
