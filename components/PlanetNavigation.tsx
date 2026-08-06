@@ -28,7 +28,7 @@ const PlanetNavigation = ({ activeIndex, onSelect }: PlanetNavigationProps) => {
                 className='h-2.5 w-2.5 rounded-full shadow-[0_0_10px_currentColor]'
                 style={{ backgroundColor: destination.color, color: destination.color }}
               />
-              <span className='sm:hidden'>{destination.label}</span>
+              <span>{destination.label}</span>
             </button>
           </li>
         ))}

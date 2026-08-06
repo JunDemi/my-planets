@@ -63,7 +63,7 @@ const PortfolioExperience = () => {
     <main className='relative h-screen overflow-hidden bg-surface-scene text-foreground'>
       <BasicThreeScene activeIndex={activeIndex} onSelect={selectDestination} />
 
-      <header className='pointer-events-none fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-end gap-[20px] px-7 sm:px-5'>
+      <header className='pointer-events-none fixed inset-x-0 top-0 z-50 flex h-20 items-center justify-end gap-[20px] px-7'>
         <div className='flex items-center gap-[10px]'>
           <Image src='/icon/esc.png' alt='' width={30} height={30} />
           <span className='text-[13px]'>홈</span>
@@ -82,7 +82,7 @@ const PortfolioExperience = () => {
         {activeIndex === null ? (
           <motion.section
             key='map'
-            className='pointer-events-none fixed inset-0 z-10 flex items-center px-7 sm:items-start sm:pt-28'
+            className='pointer-events-none fixed inset-0 z-10 flex items-center px-7'
             initial={reducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

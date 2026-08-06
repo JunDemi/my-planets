@@ -54,7 +54,7 @@ const GalleryPanel = () => {
               description='프로젝트 개발 과정 및 결과물들을 전시합니다.'
             />
 
-            <div className='mt-8 grid grid-cols-2 gap-3 sm:grid-cols-1'>
+            <div className='mt-8 grid grid-cols-2 gap-3'>
               {portfolio.gallery.map((gallery, index) => (
                 <button
                   key={gallery.name}

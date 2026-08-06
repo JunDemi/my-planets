@@ -21,7 +21,7 @@ const SkillsPanel = () => {
         title='기술 스택.'
         description='실무에서 활용하는 기술과 꾸준히 탐구하고 있는 기술을 소개합니다.'
       />
-      <div className='mt-8 grid grid-cols-4 gap-2 sm:grid-cols-3'>
+      <div className='mt-8 grid grid-cols-4 gap-2'>
         {portfolio.skills.map((skill) => (
           <button
             key={skill.name}
@@ -33,10 +33,7 @@ const SkillsPanel = () => {
                 : 'border-border-subtle bg-white/[0.025] hover:border-white/25'
             }`}
           >
-            {/* <span
-              className='mb-4 block h-5 w-5 rounded-full shadow-[0_0_18px_currentColor]'
-              style={{ backgroundColor: skill.color, color: skill.color }}
-            /> */}
+
             <ReactIcons type={skill.name} color={skill.color} />
             <span className='text-[14px] font-semibold text-foreground'>{skill.name}</span>
           </button>

@@ -17,7 +17,7 @@ const ArchitecturePanel = () => {
         description='기능 뒤에 숨겨진 설계와 기술적인 고민을 공유합니다.'
       />
 
-      <div className='mt-8 grid grid-cols-2 gap-2 sm:grid-cols-1'>
+      <div className='mt-8 grid grid-cols-2 gap-2'>
         {portfolio.architecture.map((architecture, index) => {
           const isSelected = selectedIndex === index;
 
