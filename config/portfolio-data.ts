@@ -212,6 +212,18 @@ export const portfolio = {
       description: '자동 빌드와 배포 파이프라인',
       flow: ['GitHub', 'GitHub Actions', 'AWS Amplify', '빌드', 'CloudFront', '배포'],
     },
+    {
+      title: 'Social Login',
+      category: '인증',
+      description: '카카오, 구글, 네이버 OAuth와 JSESSIONID 기반 세션을 조합한 로그인 처리 흐름',
+      flow: ['클라이언트', '소셜 로그인 요청', 'OAuth Provider', '백엔드 콜백', 'JSESSIONID 세션 발급', '로그인 완료'],
+    },
+    {
+      title: 'Testing Pipeline',
+      category: '테스트',
+      description: 'Jest 또는 Storybook을 중심으로 단위, 통합, E2E 테스트를 연결한 검증 파이프라인',
+      flow: ['기능 구현', 'Jest 단위 테스트', '통합 테스트', 'Storybook 시나리오 검증', 'E2E 테스트', '배포 승인'],
+    },
   ],
   gallery: [
     {
