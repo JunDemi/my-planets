@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import { portfolio, storageUrl } from '@/config/portfolio-data';
 import SkeletonImage from '../common/SkeletonImage';
 import PanelHeading from './PanelHeading';
@@ -10,8 +11,20 @@ import PanelHeading from './PanelHeading';
 const GalleryPanel = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [loadedImageIndex, setLoadedImageIndex] = useState<number | null>(null);
   const reducedMotion = useReducedMotion();
   const selectedGallery = selectedIndex === null ? null : portfolio.gallery[selectedIndex];
+
+  const selectedImageLoaded = selectedImageIndex === loadedImageIndex;
+  const adjacentImageIndexes =
+    selectedGallery !== null && selectedImageIndex !== null && selectedImageLoaded && selectedGallery.images.length > 1
+      ? Array.from(
+          new Set([
+            (selectedImageIndex - 1 + selectedGallery.images.length) % selectedGallery.images.length,
+            (selectedImageIndex + 1) % selectedGallery.images.length,
+          ]),
+        )
+      : [];
 
   useEffect(() => {
     if (selectedImageIndex === null) return;
@@ -29,11 +42,13 @@ const GalleryPanel = () => {
 
   const showPreviousImage = () => {
     if (selectedGallery === null || selectedImageIndex === null) return;
+    setLoadedImageIndex(null);
     setSelectedImageIndex((selectedImageIndex - 1 + selectedGallery.images.length) % selectedGallery.images.length);
   };
 
   const showNextImage = () => {
     if (selectedGallery === null || selectedImageIndex === null) return;
+    setLoadedImageIndex(null);
     setSelectedImageIndex((selectedImageIndex + 1) % selectedGallery.images.length);
   };
 
@@ -67,7 +82,8 @@ const GalleryPanel = () => {
                       src={`${storageUrl}/gallery${gallery.images[0]}`}
                       alt=''
                       fill
-                      sizes='(max-width: 750px) 100vw, 270px'
+                      sizes='270px'
+                      unoptimized
                       className='object-cover transition-transform duration-700 group-hover:scale-105'
                     />
                     <div className='absolute inset-0 bg-gradient-to-t from-surface-deep/80 via-transparent to-transparent' />
@@ -121,7 +137,10 @@ const GalleryPanel = () => {
                 <button
                   key={`${image}-${index}`}
                   type='button'
-                  onClick={() => setSelectedImageIndex(index)}
+                  onClick={() => {
+                    setLoadedImageIndex(null);
+                    setSelectedImageIndex(index);
+                  }}
                   className='group overflow-hidden rounded-[18px] border border-border-subtle bg-white/[0.025] text-left transition-colors hover:border-accent/40'
                   aria-label={`${selectedGallery.name} 프로젝트 이미지 ${index + 1} 크게 보기`}
                 >
@@ -131,6 +150,7 @@ const GalleryPanel = () => {
                       alt={`${selectedGallery.name} 프로젝트 이미지 ${index + 1}`}
                       fill
                       sizes='540px'
+                      unoptimized
                       className='object-contain transition-transform duration-500 group-hover:scale-[1.02]'
                     />
                     <span className='absolute bottom-3 right-3 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 text-[10px] text-white opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100'>
@@ -209,8 +229,9 @@ const GalleryPanel = () => {
                 alt={`${selectedGallery.name} 프로젝트 이미지 ${selectedImageIndex + 1}`}
                 fill
                 sizes='88vw'
+                unoptimized
                 className='object-contain'
-                priority
+                onImageLoad={() => setLoadedImageIndex(selectedImageIndex)}
               />
               <div className='absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/80 to-transparent px-4 pb-2 pt-12 text-[12px] text-white'>
                 <span>{selectedGallery.name}</span>
@@ -220,6 +241,21 @@ const GalleryPanel = () => {
                 </span>
               </div>
             </motion.div>
+            {adjacentImageIndexes.map((index) => (
+              <div
+                key={selectedGallery.images[index]}
+                aria-hidden='true'
+                className='pointer-events-none fixed h-px w-px opacity-0'
+              >
+                <Image
+                  src={`${storageUrl}/gallery${selectedGallery.images[index]}`}
+                  alt=''
+                  fill
+                  sizes='88vw'
+                  unoptimized
+                />
+              </div>
+            ))}
           </motion.div>,
           document.body,
         )}

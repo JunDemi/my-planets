@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
+    // Gallery source URLs are stable, so keep optimized variants available between visits.
+    minimumCacheTTL: 86_400,
     remotePatterns: [
       {
         protocol: 'https',
